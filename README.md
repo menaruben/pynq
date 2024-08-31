@@ -5,6 +5,8 @@ Python Integrated Query
 # Documentation
 > ⚠️ As I am working on the documentation and refactoring the code you can find examples on how to use the `Enumerable` class in the [enumerables tests](./src/enumerables_test.py). I will add an example for each method as soon as possible
 
+The `Enumerable` class is  used to perform [LINQ](https://learn.microsoft.com/en-us/dotnet/csharp/linq/)-like operations on a collection of values.
+
 ## Methods of `Enumerable`
 ### `of(values: Iterable[T]) -> 'Enumerable[T]'`
 Creates an `Enumerable` object from a collection of values.

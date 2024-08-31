@@ -6,8 +6,7 @@ from functools import reduce
 
 class Enumerable[T: Iterable]:
     """
-    This class is used to create an Enumerable object that can be used to perform
-    LINQ-like operations on a collection of values.
+    The `Enumerable` class is  used to perform LINQ-like operations on a collection of values.
     """
     def __init__(self) -> None:
         self._values: Iterable[T] = []
