@@ -1,9 +1,10 @@
 # pynq
 Python Integrated Query
-> ⚠️ work in progress
 
 # Examples
 ## Method Chaining
+This is the preferred way to chain methods since it implements all of the methods which are stated at the end of this document. Also if you have an LSP installed then all of the methods will be shown in your IDE. Here is an example on how to use it:
+
 ```python
 from enumerables import Enumerable
 
@@ -20,6 +21,15 @@ print(result)
 ```
 
 ## Piping
+You can also use pipes to chain methods. 
+- To `map`/`select` you pipe a `Selector`.
+- To `filter`/`where` you pipe a `Predicate`.
+- To `reduce`/`aggregate` you pipe a `Accumulator`.
+
+Pipes only support the Functions mentioned above and functions
+which depend on only one Enumerable parameter (`f(e: Enumerable) -> any`) like `to_list` or `to_set`. 
+If you want more complex queries then please use the method chaining. 
+
 ```python
 from enumerables import Enumerable, Selector, Predicate, Accumulator
 
