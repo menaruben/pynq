@@ -1,5 +1,5 @@
 import unittest
-from enumerables import Enumerable
+from enumerables import *
 
 class TestEnumerables(unittest.TestCase):
     def test_where(self):
@@ -114,15 +114,15 @@ class TestEnumerables(unittest.TestCase):
         expected = list(reversed(range(10)))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
-    def test_any(self):
+    def test_anything(self):
         is_even = lambda x: x % 2 == 0
-        result = Enumerable().of(range(10)).any(is_even)
+        result = Enumerable().of(range(10)).anything(is_even)
         expected = True
         self.assertTrue(result, f"Expected: {expected}, but got: {result}")
 
-    def test_all(self):
+    def test_every(self):
         is_even = lambda x: x % 2 == 0
-        result = Enumerable().of(range(10)).all(is_even)
+        result = Enumerable().of(range(10)).every(is_even)
         expected = False
         self.assertFalse(result, f"Expected: {expected}, but got: {result}")
 
@@ -140,6 +140,10 @@ class TestEnumerables(unittest.TestCase):
         result = Enumerable().of(range(10)).to_set()
         expected = set(range(10))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
+
+    # TODO: implement piping and test it
+    def test_piping(self):
+        pass
 
 if __name__ == "__main__":
     unittest.main()
