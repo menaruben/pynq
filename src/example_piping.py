@@ -1,4 +1,4 @@
-from enumerables import Enumerable, Selector, Predicate, Accumulator
+from enumerables import Enumerable, Selector, Predicate, Accumulator, Action
 
 def factorial(n: int) -> int: return 1 if n == 0 else n * factorial(n - 1)
 
@@ -10,3 +10,5 @@ result: int = (
 )
 
 print(result)
+
+Enumerable().of(range(10)) | Action(print)

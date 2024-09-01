@@ -21,17 +21,18 @@ print(result)
 ```
 
 ## Piping
-You can also use pipes to chain methods. 
+You can also use pipes to chain methods.
 - To `map`/`select` you pipe a `Selector`.
 - To `filter`/`where` you pipe a `Predicate`.
 - To `reduce`/`aggregate` you pipe a `Accumulator`.
+- To do some sort of `foreach` with methods that don't return anyting you should use `Action`
 
 Pipes only support the Functions mentioned above and functions
-which depend on only one Enumerable parameter (`f(e: Enumerable) -> any`) like `to_list` or `to_set`. 
-If you want more complex queries then please use the method chaining. 
+which depend on only one Enumerable parameter (`f(e: Enumerable) -> any`) like `to_list` or `to_set`.
+If you want more complex queries then please use the method chaining.
 
 ```python
-from enumerables import Enumerable, Selector, Predicate, Accumulator
+from enumerables import Enumerable, Selector, Predicate, Accumulator, Action
 
 def factorial(n: int) -> int: return 1 if n == 0 else n * factorial(n - 1)
 
@@ -43,6 +44,8 @@ result: int = (
 )
 
 print(result)
+
+Enumerable().of(range(10)) | Action(print)
 ```
 
 # Enumerable
@@ -150,9 +153,9 @@ Zips with another `Enumerable` object.
 Enables the use of operators for chaining operations using the `|` (pipe). For example:
 ```python
 result: int = (
-    Enumerable().of(range(10)) 
+    Enumerable().of(range(10))
     | Selector(lambda x: x * 2)
-    | Predicate(lambda x: x > 10) 
+    | Predicate(lambda x: x > 10)
     | Accumulator(lambda x, y: x + y)
 )
 ```
