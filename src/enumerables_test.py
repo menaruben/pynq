@@ -114,7 +114,7 @@ class TestEnumerables(unittest.TestCase):
         expected = list(reversed(range(10)))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
-    def test_any(self): 
+    def test_any(self):
         result = Enumerable().of(range(10)).any(lambda x: x % 2 == 0)
         expected = True
         self.assertTrue(result, f"Expected: {expected}, but got: {result}")
@@ -155,9 +155,9 @@ class TestEnumerables(unittest.TestCase):
 
     def test_piping(self):
         result: int = (
-            Enumerable().of(range(10)) 
+            Enumerable().of(range(10))
             | Selector(lambda x: x * 2)
-            | Predicate(lambda x: x > 10) 
+            | Predicate(lambda x: x > 10)
             | Accumulator(lambda x, y: x + y)
         )
         expected = sum([12, 14, 16, 18])
