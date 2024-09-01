@@ -114,15 +114,13 @@ class TestEnumerables(unittest.TestCase):
         expected = list(reversed(range(10)))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
-    def test_anything(self):
-        is_even = lambda x: x % 2 == 0
-        result = Enumerable().of(range(10)).anything(is_even)
+    def test_any(self): 
+        result = Enumerable().of(range(10)).any(lambda x: x % 2 == 0)
         expected = True
         self.assertTrue(result, f"Expected: {expected}, but got: {result}")
 
-    def test_every(self):
-        is_even = lambda x: x % 2 == 0
-        result = Enumerable().of(range(10)).every(is_even)
+    def test_all(self):
+        result = Enumerable().of(range(10)).all(lambda x: x % 2 == 0)
         expected = False
         self.assertFalse(result, f"Expected: {expected}, but got: {result}")
 
@@ -141,9 +139,29 @@ class TestEnumerables(unittest.TestCase):
         expected = set(range(10))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
-    # TODO: implement piping and test it
+    def test_zip(self):
+        pair_operation = lambda pair: (pair[0]*3, pair[1]/3)
+
+        result = (
+            Enumerable()
+            .of(range(10))
+            .zip(range(10, 20))
+            .select(pair_operation)
+            .to_list()
+        )
+
+        expected = list(pair_operation(pair) for pair in zip(range(10), range(10, 20)))
+        self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
+
     def test_piping(self):
-        pass
+        result: int = (
+            Enumerable().of(range(10)) 
+            | Selector(lambda x: x * 2)
+            | Predicate(lambda x: x > 10) 
+            | Accumulator(lambda x, y: x + y)
+        )
+        expected = sum([12, 14, 16, 18])
+        self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
 if __name__ == "__main__":
     unittest.main()

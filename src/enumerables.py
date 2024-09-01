@@ -1,7 +1,8 @@
 from collections.abc import Iterable
 from types import UnionType
-from typing import Callable, List
+from typing import Any, Callable, List, Tuple
 from enumerable_funcs import *
+from functools import singledispatch, singledispatchmethod
 
 
 class Enumerable[T: Iterable]:
@@ -160,13 +161,13 @@ class Enumerable[T: Iterable]:
         """
         foreach(self._values, action)
     
-    def anything(self, predicate: Callable[[T], bool]) -> bool:
+    def any(self, predicate: Callable[[T], bool]) -> bool:
         """
         The `anything` method is used to check if any value in the Enumerable object satisfies a predicate.
         """
         return anything(self._values, predicate)
     
-    def every(self, predicate: Callable[[T], bool]) -> bool:
+    def all(self, predicate: Callable[[T], bool]) -> bool:
         """
         The `every` method is used to check if all values in the Enumerable object satisfy a predicate.
         """
@@ -195,13 +196,28 @@ class Enumerable[T: Iterable]:
         The `combine` method is used to combine this Enumerable object with another Enumerable object.
         """
         return Enumerable().of(concat(self._values, other.to_list()))
+    
+    def zip(self, other: 'Enumerable[T]') -> 'Enumerable[Tuple[T, T]]':
+        """
+        The `zip` method is used to zip this Enumerable object with another Enumerable object
+        to create a new Enumerable object of tuples.
+        """
+        return Enumerable().of(zip(self._values, list(other)))
+
+    def __or__(self, func: Callable) -> UnionType:
+        if isinstance(func, Predicate):
+            return self.where(func)
+        elif isinstance(func, Selector):
+            return self.select(func)
+        elif isinstance(func, Accumulator):
+            return self.aggregate(func)
+        elif isinstance(func, Action):
+            return self.foreach(func)
+        else:
+            return func(self)
 
     def __next__(self) -> T:
         return next(iter(self._values)) if not self.is_empty() else None
 
     def __iter__(self) -> Iterable[T]:
         return iter(self._values)
-
-    # implement method chaining with pipe operator
-    def __or__(self, func: Callable, f: Callable) -> UnionType:
-        pass
