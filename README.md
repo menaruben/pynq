@@ -2,12 +2,45 @@
 Python Integrated Query
 > ⚠️ work in progress
 
-# Documentation
-> ⚠️ As I am working on the documentation and refactoring the code you can find examples on how to use the `Enumerable` class in the [enumerables tests](./src/enumerables_test.py). I will add an example for each method as soon as possible
+# Examples
+## Method Chaining
+```python
+from enumerables import Enumerable
 
-The `Enumerable` class is  used to perform [LINQ](https://learn.microsoft.com/en-us/dotnet/csharp/linq/)-like operations on a collection of values.
+def factorial(n: int) -> int: return 1 if n == 0 else n * factorial(n - 1)
 
-## Methods of `Enumerable`
+result: int = (
+    Enumerable().of(range(10))
+    .select(factorial)
+    .where(lambda x: x % 2 == 0)
+    .aggregate(lambda x, y: x + y)
+)
+
+print(result)
+```
+
+## Piping
+```python
+from enumerables import Enumerable, Selector, Predicate, Accumulator
+
+def factorial(n: int) -> int: return 1 if n == 0 else n * factorial(n - 1)
+
+result: int = (
+    Enumerable().of(range(10))
+    | Selector(factorial)
+    | Predicate(lambda x: x % 2 == 0)
+    | Accumulator(lambda x, y: x + y)
+)
+
+print(result)
+```
+
+# Enumerable
+
+The `Enumerable` class provides LINQ-like operations for collections in Python. It allows for easy manipulation and querying of collections.
+
+## Class Methods
+
 ### `of(values: Iterable[T]) -> 'Enumerable[T]'`
 Creates an `Enumerable` object from a collection of values.
 
@@ -15,82 +48,101 @@ Creates an `Enumerable` object from a collection of values.
 Creates an empty `Enumerable` object.
 
 ### `where(predicate: Callable[[T], bool]) -> 'Enumerable[T]'`
-Filters the values of the `Enumerable` object based on a predicate.
+Filters values based on a predicate.
 
 ### `select(selector: Callable[[T], T]) -> 'Enumerable[T]'`
-Projects the values of the `Enumerable` object based on a selector.
+Projects values based on a selector.
 
 ### `select_many(selector: Callable[[T], Iterable[T]]) -> 'Enumerable[T]'`
-Flattens the values of the `Enumerable` object based on a selector.
+Flattens and projects values based on a selector.
 
 ### `distinct() -> 'Enumerable[T]'`
-Removes duplicate values from the `Enumerable` object.
+Removes duplicate values.
 
 ### `distinct_by(key_selector: Callable[[T], T]) -> 'Enumerable[T]'`
-Removes duplicate values from the `Enumerable` object based on a key selector.
+Removes duplicates based on a key selector.
 
 ### `take(count: int) -> 'Enumerable[T]'`
-Takes the first `count` values from the `Enumerable` object.
+Takes the first `count` values.
 
 ### `take_while(predicate: Callable[[T], bool]) -> 'Enumerable[T]'`
-Takes values from the `Enumerable` object while the predicate is true.
+Takes values while a predicate is true.
 
 ### `skip(count: int) -> 'Enumerable[T]'`
-Skips the first `count` values from the `Enumerable` object.
+Skips the first `count` values.
 
 ### `skip_while(predicate: Callable[[T], bool]) -> 'Enumerable[T]'`
-Skips values from the `Enumerable` object while the predicate is true.
+Skips values while a predicate is true.
 
 ### `aggregate(func: Callable[[T, T], T]) -> T`
-Applies an accumulator function over the values of the `Enumerable` object.
+Applies an accumulator function over the values.
 
 ### `aggregate_with_seed(func: Callable[[T, T], T], seed: T) -> T`
-Applies an accumulator function over the values of the `Enumerable` object with a seed/initial value.
+Applies an accumulator function with a seed value.
 
 ### `count() -> int`
-Counts the number of values in the `Enumerable` object.
+Counts the number of values.
 
 ### `count_where(predicate: Callable[[T], bool]) -> int`
-Counts the number of values in the `Enumerable` object that satisfy a predicate.
+Counts values satisfying a predicate.
 
 ### `concat(values: Iterable[T]) -> 'Enumerable[T]'`
-Concatenates the values of the `Enumerable` object with another collection of values.
+Concatenates with another collection of values.
 
 ### `first() -> T`
-Gets the first value of the `Enumerable` object. If the `Enumerable` object is empty, it returns `None`.
+Gets the first value, or `None` if empty.
 
 ### `first_where(predicate: Callable[[T], bool]) -> T`
-Gets the first value of the `Enumerable` object that satisfies a predicate.
+Gets the first value satisfying a predicate.
 
 ### `last() -> T`
-Gets the last value of the `Enumerable` object. If the `Enumerable` object is empty, it returns `None`.
+Gets the last value, or `None` if empty.
 
 ### `last_where(predicate: Callable[[T], bool]) -> T`
-Gets the last value of the `Enumerable` object that satisfies a predicate.
+Gets the last value satisfying a predicate.
 
 ### `sort(key: Callable[[T], T], reverse: bool = False) -> 'Enumerable[T]'`
-Sorts the values of the `Enumerable` object based on a key.
+Sorts values based on a key.
 
 ### `sort_by(key: Callable[[T], T], reverse: bool = False) -> 'Enumerable[T]'`
-Sorts the values of the `Enumerable` object based on a key.
+Sorts values based on a key (alias for `sort`).
 
 ### `reverse() -> 'Enumerable[T]'`
-Reverses the values of the `Enumerable` object.
+Reverses the values.
 
 ### `foreach(action: Callable[[T], None]) -> None`
-Performs an action on each value of the `Enumerable` object.
+Performs an action on each value.
 
 ### `any(predicate: Callable[[T], bool]) -> bool`
-Checks if any value in the `Enumerable` object satisfies a predicate.
+Checks if any value satisfies a predicate.
 
 ### `all(predicate: Callable[[T], bool]) -> bool`
-Checks if all values in the `Enumerable` object satisfy a predicate.
+Checks if all values satisfy a predicate.
 
 ### `is_empty() -> bool`
-Checks if the `Enumerable` object is empty.
+Checks if the collection is empty.
 
 ### `to_list() -> List[T]`
-Converts the `Enumerable` object to a list.
+Converts to a list.
 
 ### `to_set() -> set[T]`
-Converts the `Enumerable` object to a set.
+Converts to a set.
+
+### `combine(other: 'Enumerable[T]') -> 'Enumerable[T]'`
+Combines with another `Enumerable` object.
+
+### `zip(other: 'Enumerable[T]') -> 'Enumerable[Tuple[T, T]]'`
+Zips with another `Enumerable` object.
+
+### Operator Overloads
+
+#### `__or__(func: Callable) -> UnionType`
+Enables the use of operators for chaining operations using the `|` (pipe). For example:
+```python
+result: int = (
+    Enumerable().of(range(10)) 
+    | Selector(lambda x: x * 2)
+    | Predicate(lambda x: x > 10) 
+    | Accumulator(lambda x, y: x + y)
+)
+```
