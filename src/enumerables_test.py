@@ -163,5 +163,25 @@ class TestEnumerables(unittest.TestCase):
         expected = sum([12, 14, 16, 18])
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
+    def test_intersect(self):
+        result = (
+            Enumerable()
+                .of(range(10))
+                .intersect(range(5, 15))
+                .to_list()
+        )
+        expected = list(range(5, 10))
+        self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
+
+    def test_without(self):
+        result = (
+            Enumerable()
+                .of(range(10))
+                .without(range(5, 10))
+                .to_list()
+        )
+        expected = list(range(5))
+        self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
+
 if __name__ == "__main__":
     unittest.main()

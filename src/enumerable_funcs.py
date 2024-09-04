@@ -16,7 +16,7 @@ class Predicate[T](Func[T, bool]):
 
     def __call__(self, x: T) -> bool:
         return self.func(x)
-    
+
 
 class Selector[T, U](Func[T, U]):
     def __init__(self, func: Callable[[T], U]) -> None:
@@ -110,6 +110,12 @@ def reverse(values: Iterable[T]) -> Iterable[T]:
 
 def foreach(values: Iterable[T], action: Action[T]) -> None:
     [action(x) for x in values]
+
+def intersect(values: Iterable[T], other_values: Iterable[T]) -> Iterable[T]:
+    return (x for x in values if x in other_values)
+
+def without(values: Iterable[T], other_values: Iterable[T]) -> Iterable[T]:
+    return (x for x in values if x not in other_values)
 
 def anything(values: Iterable[T], predicate: Predicate[T]) -> bool:
     return any(predicate(x) for x in values)

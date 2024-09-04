@@ -203,6 +203,18 @@ class Enumerable[T: Iterable]:
         """
         return Enumerable().of(zip(self._values, list(other)))
 
+    def intersect(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
+        """
+        The `intersect` method is used to get the intersection of this Enumerable object with another Enumerable object.
+        """
+        return Enumerable().of(intersect(self._values, other))
+
+    def without(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
+        """
+        The `without` method is used to get the values of this Enumerable object that are not in another Enumerable object.
+        """
+        return Enumerable().of(without(self._values, other))
+
     def __or__(self, func: Callable) -> UnionType:
         if isinstance(func, Predicate):
             return self.where(func)
@@ -220,3 +232,12 @@ class Enumerable[T: Iterable]:
 
     def __iter__(self) -> Iterable[T]:
         return iter(self._values)
+
+    def __mul__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
+        return self.intersect(other)
+
+    def __add__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
+        return self.combine(other)
+
+    def __sub__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
+        return self.without(other)

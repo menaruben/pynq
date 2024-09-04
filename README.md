@@ -147,6 +147,12 @@ Combines with another `Enumerable` object.
 ### `zip(other: 'Enumerable[T]') -> 'Enumerable[Tuple[T, T]]'`
 Zips with another `Enumerable` object.
 
+### `intersect(self, other: 'Enumerable[T]') -> 'Enumerable[T]'`
+The `intersect` method is used to get the intersection of this Enumerable object with another Enumerable object.
+
+### `without(self, other: 'Enumerable[T]') -> 'Enumerable[T]'`
+The `without` method is used to get the values of this Enumerable object that are not in another Enumerable object.
+
 ### Operator Overloads
 
 #### `__or__(func: Callable) -> UnionType`
@@ -159,3 +165,15 @@ result: int = (
     | Accumulator(lambda x, y: x + y)
 )
 ```
+
+#### `__mul__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (* operator)
+Returns the intersection of the two enumerables.
+
+#### `__add__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (+ operator)
+Returns the combination of the two enumerables.
+
+#### `__sub__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (- operator)
+Returns the current enumerable without any values that are in the `other` enumerable.
+
+#### `__iter__(self) -> Iterable[T]`
+Overwrites the `iter` function and returns an iterator of the enumerable.
