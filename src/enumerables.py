@@ -232,12 +232,3 @@ class Enumerable[T: Iterable]:
 
     def __iter__(self) -> Iterable[T]:
         return iter(self._values)
-
-    def __mul__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
-        return self.intersect(other)
-
-    def __add__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
-        return self.combine(other)
-
-    def __sub__(self, other: 'Enumerable[T]') -> 'Enumerable[T]':
-        return self.without(other)

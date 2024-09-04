@@ -166,14 +166,5 @@ result: int = (
 )
 ```
 
-#### `__mul__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (* operator)
-Returns the intersection of the two enumerables.
-
-#### `__add__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (+ operator)
-Returns the combination of the two enumerables.
-
-#### `__sub__(self, other: 'Enumerable[T]') -> 'Enumerable[T]'` (- operator)
-Returns the current enumerable without any values that are in the `other` enumerable.
-
 #### `__iter__(self) -> Iterable[T]`
 Overwrites the `iter` function and returns an iterator of the enumerable.
