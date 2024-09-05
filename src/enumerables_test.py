@@ -183,5 +183,11 @@ class TestEnumerables(unittest.TestCase):
         expected = list(range(5))
         self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
 
+    def test_iter(self):
+        result = [x for x in Enumerable().of(range(10))]
+        expected = list(range(10))
+        self.assertEqual(result, expected, f"Expected: {expected}, but got: {result}")
+
+
 if __name__ == "__main__":
     unittest.main()
